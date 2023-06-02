@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { LaunchEntity } from '../../launchs/entities/launches.entity';
+import { LaunchEntity } from '../../launches/entities/launches.entity';
 
 @Entity({ name: 'rockets' })
 export class RocketEntity {

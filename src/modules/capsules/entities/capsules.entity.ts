@@ -1,8 +1,8 @@
-import { LaunchEntity } from 'src/modules/launchs/entities/launches.entity';
+import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
 import { Column, Entity, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm';
 
 @Entity({ name: 'capsules' })
-export class CapsuleEntity {
+export class CapsulesEntity {
   @PrimaryColumn()
   id: string;
 

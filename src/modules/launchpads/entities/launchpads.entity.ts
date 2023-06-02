@@ -1,4 +1,4 @@
-import { LaunchEntity } from 'src/modules/launchs/entities/launches.entity';
+import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
 import { Column, Entity, PrimaryColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'launchpads' })

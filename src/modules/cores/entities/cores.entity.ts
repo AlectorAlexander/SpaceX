@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
-import { LaunchEntity } from 'src/modules/launchs/entities/launches.entity';
+import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
 
 @Entity({ name: 'cores' })
 export class CoreEntity {
