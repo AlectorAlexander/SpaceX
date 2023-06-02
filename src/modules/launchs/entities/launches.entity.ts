@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, OneToMany } from 'typeorm';
 import { Flickr, Links, Reddit } from '../dtos/launches.dto';
 import { RocketEntity } from 'src/modules/rockets/entities/rockets.entity';
-import { LaunchPadEntity } from 'src/modules/launchpads/entities/launchpads.entity';
+import { LaunchpadEntity } from 'src/modules/launchpads/entities/launchpads.entity';
 import { CoreEntity } from 'src/modules/cores/entities/cores.entity';
 import { CapsuleEntity } from 'src/modules/capsules/entities/capsules.entity';
 import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
@@ -9,7 +9,7 @@ import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
 @Entity({ name: 'launches' })
 export class LaunchEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   links: Links;
@@ -53,8 +53,8 @@ export class LaunchEntity {
   @Column()
   payloadsIds: string[];
 
-  @ManyToOne(() => LaunchPadEntity, launchPad => launchPad.launches)
-  launchPad: LaunchPadEntity;
+  @ManyToOne(() => LaunchpadEntity, launchPad => launchPad.launches)
+  launchPad: LaunchpadEntity;
 
   @Column()
   upcoming: boolean;

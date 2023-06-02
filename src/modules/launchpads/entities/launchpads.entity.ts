@@ -2,7 +2,7 @@ import { LaunchEntity } from 'src/modules/launchs/entities/launches.entity';
 import { Column, Entity, PrimaryColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'launchpads' })
-export class LaunchPadEntity {
+export class LaunchpadEntity {
   @PrimaryColumn()
   id: string;
 
