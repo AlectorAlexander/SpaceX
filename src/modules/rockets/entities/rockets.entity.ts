@@ -4,7 +4,7 @@ import { LaunchEntity } from '../../launches/entities/launches.entity';
 @Entity({ name: 'rockets' })
 export class RocketEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column({ type: 'json' })
   height: object; /* Contém informações sobre a altura da espaçonave, em metros e pés. */

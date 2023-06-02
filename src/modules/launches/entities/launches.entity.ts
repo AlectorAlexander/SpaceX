@@ -3,7 +3,7 @@ import { Flickr, Links, Reddit } from '../dtos/launches.dto';
 import { RocketEntity } from 'src/modules/rockets/entities/rockets.entity';
 import { LaunchpadEntity } from 'src/modules/launchpads/entities/launchpads.entity';
 import { CoreEntity } from 'src/modules/cores/entities/cores.entity';
-import { CapsuleEntity } from 'src/modules/capsules/entities/capsules.entity';
+import { CapsulesEntity } from 'src/modules/capsules/entities/capsules.entity';
 import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
 
 @Entity({ name: 'launches' })
@@ -30,7 +30,7 @@ export class LaunchEntity {
   window: number;
 
   @ManyToOne(() => RocketEntity, rocket => rocket.launch)
-  rocket: RocketEntity;
+  rocket: string;
 
   @Column()
   success: boolean;
@@ -86,8 +86,8 @@ export class LaunchEntity {
   @ManyToMany(() => CoreEntity)
   cores: CoreEntity[];
 
-  @OneToMany(() => CapsuleEntity, capsule => capsule.launch)
-  capsules: CapsuleEntity[];
+  @OneToMany(() => CapsulesEntity, capsule => capsule.launch)
+  capsules: CapsulesEntity[];
 
   @OneToMany(() => PayloadEntity, payload => payload.launch)
   payloads: PayloadEntity[];
