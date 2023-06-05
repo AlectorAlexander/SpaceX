@@ -7,6 +7,7 @@ import { LaunchpadService } from './services/launchpads.service';
 @Module({
   imports: [TypeOrmModule.forFeature([LaunchpadEntity])],
   controllers: [LaunchpadsController],
+  exports: [LaunchpadService], 
   providers: [LaunchpadService],
 })
 export class LaunchpadsModule {}
