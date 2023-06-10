@@ -12,12 +12,13 @@ export class LaunchService {
     private readonly launchpadService: LaunchpadService,
   ) {}
 
-  public async getAllLaunches(): Promise<LaunchEntity[]> {
+  public async getAllLaunches(): Promise<LaunchEntity[]> {    
     const launches = await this.launchRepository.find();
     return launches;
   }
 
   public async getLaunchById(id: string): Promise<LaunchEntity | null> {
+    
     const launch = await this.launchRepository.findOne({ where: {id}});
     return launch || null;
   }
@@ -62,7 +63,7 @@ export class LaunchService {
   public async getLaunchesByPayloadId(payloadId: string): Promise<LaunchEntity[] | null> {
     try {
       const launches = await this.launchRepository.find({
-        where: { payloadsIds: ILike(`%${payloadId}%`) },
+        where: { payloads: ILike(`%${payloadId}%`) },
         order: { dateUnix: 'ASC' },
       });
       return launches || null;

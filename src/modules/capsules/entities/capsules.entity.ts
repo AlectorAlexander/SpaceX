@@ -31,7 +31,7 @@ export class CapsulesEntity {
   @Column()
   type: string;
 
-  @OneToOne(() => LaunchEntity, (launch) => launch.capsules)
-  @JoinColumn({ name: 'capsuleId' })
+  @OneToOne(() => LaunchEntity, (launch) => launch.capsulesId)
+  @JoinColumn({ name: 'capsulesId' })
   launch: LaunchEntity;
 }

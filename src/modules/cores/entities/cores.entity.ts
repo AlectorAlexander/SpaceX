@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, PrimaryColumn, ManyToMany, JoinColumn, JoinTable } from 'typeorm';
 import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
 
 @Entity({ name: 'cores' })
@@ -36,8 +36,9 @@ export class CoreEntity {
   @Column()
   status: string;
 
-  @ManyToMany(() => LaunchEntity)
+  @ManyToMany(() => LaunchEntity, launch => launch.cores)
   @JoinTable({
+    
     name: 'launch_core',
     joinColumn: {
       name: 'coreId',

@@ -1,4 +1,3 @@
-import { readFileSync } from 'fs'
 module.exports = {
     type: 'mysql',
     url: process.env.DATABASE_URL,
@@ -8,7 +7,7 @@ module.exports = {
     synchronize: true,
     extra: {
         ssl: {
-          ca: readFileSync(process.env.MYSQL_ATTR_SSL_CA)
+          rejectUnauthorized: false
         },
       },
   };

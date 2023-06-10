@@ -1,4 +1,4 @@
-import { Seeder, Factory } from 'typeorm-seeding';
+/* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
 import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
@@ -48,3 +48,4 @@ export default class CreateLaunches implements Seeder {
     }
   }
 }
+ */

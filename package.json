@@ -23,7 +23,8 @@
     "migrate": "typeorm migration:run --config src/database/config/sequelize.config.ts",
     "migrate:reset": "typeorm migration:revert --config src/database/config/sequelize.config.ts && typeorm migration:run --config src/database/config/sequelize.config.ts",
     "clear-db": "typeorm schema:drop --config src/database/config/sequelize.config.ts --force",
-    "setup": "npm install && npm run build && npm run clear-db && npm run create-db && npm run migrate:reset && npm run start:dev"
+    "seed": "node ./node_modules/typeorm-extension/dist/cli/index.js seed",
+    "setup": "npm install && npm run build && npm run start:dev"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",

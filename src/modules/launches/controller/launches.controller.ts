@@ -5,7 +5,7 @@ import { LaunchEntity } from '../entities/launches.entity';
 @Controller('launches')
 export class LaunchController {
   constructor(private readonly launchService: LaunchService) {}
-
+  
   @Get()
   public async getAllLaunches(): Promise<LaunchEntity[]> {
     return this.launchService.getAllLaunches();

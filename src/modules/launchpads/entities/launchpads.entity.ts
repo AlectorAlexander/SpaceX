@@ -34,10 +34,10 @@ export class LaunchpadEntity {
   launch_successes: number;
 
   @Column('text', { array: true })
-  rocketIds: string[];
+  rockets: string[];
 
   @Column('text', { array: true })
-  launchIds: string[];
+  launches: string[];
 
   @Column()
   status: string;
@@ -46,5 +46,5 @@ export class LaunchpadEntity {
   details: string;
 
   @OneToMany(() => LaunchEntity, launch => launch.launchPad)
-  launches: LaunchEntity[];
+  launchesId: LaunchEntity[];
 }

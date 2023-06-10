@@ -12,6 +12,6 @@ import { LaunchModule } from '../launches/launch.module';
   ],
   controllers: [RocketsController],
   providers: [RocketsService],
-  exports: [RocketsService], // Se necessário
+  exports: [RocketsService],
 })
 export class RocketsModule {}

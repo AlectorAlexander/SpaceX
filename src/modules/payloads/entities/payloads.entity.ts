@@ -6,7 +6,7 @@ export class PayloadEntity {
   @PrimaryColumn()
   id: string;
 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'json', nullable: true })
   dragon: {
     capsule: null | string;
     mass_returned_kg: null | number;

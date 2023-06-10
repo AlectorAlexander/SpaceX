@@ -1,4 +1,4 @@
-import { Seeder, Factory } from 'typeorm-seeding';
+/* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
 import { LaunchpadEntity } from 'src/modules/launchpads/entities/launchpads.entity';
@@ -32,3 +32,4 @@ export default class CreateLaunchpads implements Seeder {
     }
   }
 }
+ */

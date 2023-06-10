@@ -1,4 +1,4 @@
-import { Seeder, Factory } from 'typeorm-seeding';
+/* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
 import { CoreEntity } from 'src/modules/cores/entities/cores.entity';
@@ -31,3 +31,4 @@ export default class CoreSeeder implements Seeder {
     }
   }
 }
+ */

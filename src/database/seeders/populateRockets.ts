@@ -1,4 +1,4 @@
-import { Seeder, Factory } from 'typeorm-seeding';
+/* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
 import { RocketEntity } from 'src/modules/rockets/entities/rockets.entity';
@@ -42,3 +42,4 @@ export default class CreateRockets implements Seeder {
     }
   }
 }
+ */

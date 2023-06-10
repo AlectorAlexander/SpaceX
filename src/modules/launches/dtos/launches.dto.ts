@@ -1,38 +1,37 @@
 export interface Patch {
-    small: string;
-    large: string;
-  }
-  
-  export interface Links {
-    patch: Patch;
-  }
-  
-  export interface Reddit {
-    campaign: string;
-    launch: string;
-    media: string;
-    recovery: null;
-  }
-  
-  export interface Flickr {
-    small: string[];
-    original: string[];
-    presskit: string;
-    webcast: string;
-    youtube_id: string;
-    article: string;
-    wikipedia: string;
-  }
+  small: JSON;
+  large: JSON;
+}
 
-  export interface Core {
-    core: string;
-    legs: boolean;
-    flight: number;
-    reused: boolean;
-    landpad: string | null;
-    gridfins: boolean;
-    landing_type: string | null;
-    landing_attempt: boolean;
-    landing_success: boolean | null;
-  }
-  
+export interface Links {
+  patch: JSON;
+}
+
+export interface Reddit {
+  campaign: JSON;
+  launch: JSON;
+  media: JSON;
+  recovery: JSON | null;
+}
+
+export interface Flickr {
+  small: JSON[];
+  original: JSON[];
+  presskit: JSON;
+  webcast: JSON;
+  youtube_id: JSON;
+  article: JSON;
+  wikipedia: JSON;
+}
+
+export interface Core {
+  core: JSON;
+  legs: JSON;
+  flight: JSON;
+  reused: JSON;
+  landpad: JSON | null;
+  gridfins: JSON;
+  landing_type: JSON | null;
+  landing_attempt: JSON;
+  landing_success: JSON | null;
+}

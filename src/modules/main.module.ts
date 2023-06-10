@@ -9,14 +9,12 @@ import CoresModule from './cores/cores.module';
 import { readFileSync } from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       url: process.env.DATABASE_URL,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
       extra: {
         ssl: {
           ca: readFileSync(`../../../../../../../../${process.env.MYSQL_ATTR_SSL_CA}`)
@@ -31,4 +29,5 @@ dotenv.config();
     LaunchpadsModule,
   ],
 })
+
 export class MainModule {}

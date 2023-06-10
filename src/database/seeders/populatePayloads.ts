@@ -1,4 +1,4 @@
-import { Seeder, Factory } from 'typeorm-seeding';
+/* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
 import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
@@ -48,3 +48,4 @@ export default class PayloadSeeder implements Seeder {
     }
   }
 }
+ */

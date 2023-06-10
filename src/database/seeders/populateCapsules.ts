@@ -1,4 +1,4 @@
-import { Seeder, Factory } from 'typeorm-seeding';
+/* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
 import { CapsulesEntity } from 'src/modules/capsules/entities/capsules.entity';
@@ -30,3 +30,4 @@ export default class CreateCapsules implements Seeder {
     await connection.getRepository(CapsulesEntity).createQueryBuilder().insert().values(capsuleData).execute();
   }
 }
+ */

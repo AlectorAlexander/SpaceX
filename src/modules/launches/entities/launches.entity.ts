@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, OneToMany, JoinTable, JoinColumn } from 'typeorm';
 import { Flickr, Links, Reddit } from '../dtos/launches.dto';
 import { RocketEntity } from 'src/modules/rockets/entities/rockets.entity';
 import { LaunchpadEntity } from 'src/modules/launchpads/entities/launchpads.entity';
@@ -6,18 +6,18 @@ import { CoreEntity } from 'src/modules/cores/entities/cores.entity';
 import { CapsulesEntity } from 'src/modules/capsules/entities/capsules.entity';
 import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
 
-@Entity({ name: 'launches' })
+@Entity({ name: 'launchs' })
 export class LaunchEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({type: 'varchar'})
   links: Links;
 
-  @Column()
+  @Column({type: 'varchar'})
   reddit: Reddit;
 
-  @Column()
+  @Column({type: 'varchar'})
   flickr: Flickr;
 
   @Column()
@@ -30,65 +30,78 @@ export class LaunchEntity {
   window: number;
 
   @ManyToOne(() => RocketEntity, rocket => rocket.launch)
+  @JoinColumn({ name: 'id' })
   rocket: string;
 
   @Column()
   success: boolean;
 
-  @Column()
+  @Column({type: 'varchar'})
   failures: object;
 
   @Column()
   details: string;
 
-  @Column()
+  @Column({type: 'varchar'})
   crew: string[];
 
-  @Column()
+  @Column({type: 'varchar'})
   ships: string[];
 
-  @Column()
-  capsulesId: string[];
+  @Column({type: 'varchar'})
+  capsules: string[];
 
-  @Column()
-  payloadsIds: string[];
+  @Column({type: 'varchar'})
+  payloads: string[];
 
   @ManyToOne(() => LaunchpadEntity, launchPad => launchPad.launches)
+    @JoinColumn({ name: 'id' })
   launchPad: LaunchpadEntity;
 
   @Column()
   upcoming: boolean;
 
-  @Column()
+  @Column({name: 'auto_update', type: 'boolean'})
   autoUpdate: boolean;
 
   @Column()
   name: string;
 
-  @Column()
+  @Column({name: 'date_utc', type: 'varchar', length: 50})
   dateUtc: string;
 
-  @Column()
+  @Column({name: 'date_unix', type: 'int'})
   dateUnix: number;
 
-  @Column()
+  @Column({name: 'date_local', type: 'varchar', length: 50})
   dateLocal: string;
 
-  @Column()
+  @Column({name: 'date_precision', type: 'varchar', length: 50})
   datePrecision: string;
 
-  @Column()
+  @Column({name: 'date_tbd', type: 'boolean', default: false})
   dateTbd: boolean;
 
-  @Column()
+  @Column({name: 'date_tbd_window', type: 'int', default: 0})
   dateTbdWindow: number;
 
-  @ManyToMany(() => CoreEntity)
+  @ManyToMany(() => CoreEntity, core => core.launches)
+  @JoinTable({
+    name: 'launch_core',
+    joinColumn: {
+      name: 'launchId',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'coreId',
+      referencedColumnName: 'id',
+    },
+  })
   cores: CoreEntity[];
 
   @OneToMany(() => CapsulesEntity, capsule => capsule.launch)
-  capsules: CapsulesEntity[];
+  capsulesId: CapsulesEntity[];
 
   @OneToMany(() => PayloadEntity, payload => payload.launch)
-  payloads: PayloadEntity[];
+  payloadsId: PayloadEntity[];
 }
