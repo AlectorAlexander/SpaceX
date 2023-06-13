@@ -17,21 +17,6 @@ export class PayloadsController {
     }
   }
 
-  @Get(':id')
-  public async getPayloadById(@Param('id') id: string): Promise<PayloadEntity> {
-    try {
-      const payload = await this.payloadsService.getPayloadById(id);
-      if (payload) {
-        return payload;
-      } else {
-        throw new NotFoundException('PayloadEntity not found');
-      }
-    } catch (error) {
-      console.error(error);
-      throw new NotFoundException('Failed to fetch payload');
-    }
-  }
-
   @Get('name/:name')
   public async getPayloadByName(@Param('name') name: string): Promise<PayloadEntity[]> {
     try {
@@ -54,6 +39,22 @@ export class PayloadsController {
       const payloads = await this.payloadsService.getPayloadByType(type);
       if (payloads.length > 0) {
         return payloads;
+      } else {
+        throw new NotFoundException('PayloadEntity not found');
+      }
+    } catch (error) {
+      console.error(error);
+      throw new NotFoundException('Failed to fetch payload');
+    }
+  }
+
+
+  @Get(':id')
+  public async getPayloadById(@Param('id') id: string): Promise<PayloadEntity> {
+    try {
+      const payload = await this.payloadsService.getPayloadById(id);
+      if (payload) {
+        return payload;
       } else {
         throw new NotFoundException('PayloadEntity not found');
       }
