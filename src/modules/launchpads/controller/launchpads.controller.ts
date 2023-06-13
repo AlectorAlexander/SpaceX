@@ -17,20 +17,6 @@ class LaunchpadsController {
     }
   }
 
-  @Get(':id')
-  public async getLaunchpadById(@Param('id') id: string, @Res() res: Response): Promise<void> {
-    try {
-      const launchpad = await this.launchpadService.getLaunchpadById(id);
-      if (launchpad) {
-        res.json(launchpad);
-      } else {
-        throw new NotFoundException('Launchpad not found');
-      }
-    } catch (error) {
-      throw new InternalServerErrorException('Failed to fetch launchpad');
-    }
-  }
-
   @Get('name/:name')
   public async getLaunchpadByName(@Param('name') name: string, @Res() res: Response): Promise<void> {
     try {
@@ -70,6 +56,20 @@ class LaunchpadsController {
       }
     } catch (error) {
       throw new InternalServerErrorException(error);
+    }
+  }
+
+  @Get(':id')
+  public async getLaunchpadById(@Param('id') id: string, @Res() res: Response): Promise<void> {
+    try {
+      const launchpad = await this.launchpadService.getLaunchpadById(id);
+      if (launchpad) {
+        res.json(launchpad);
+      } else {
+        throw new NotFoundException('Launchpad not found');
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to fetch launchpad');
     }
   }
 }
