@@ -11,15 +11,6 @@ export class RocketsController {
     return this.rocketsService.getAllRockets();
   }
 
-  @Get(':id')
-  async getRocketById(@Param('id') id: string): Promise<RocketEntity> {
-    const rocket = await this.rocketsService.getRocketById(id);
-    if (!rocket) {
-      throw new NotFoundException('Rocket not found');
-    }
-    return rocket;
-  }
-
   @Get('pending')
   async getNextRocketPending(): Promise<RocketEntity> {
     const rocket = await this.rocketsService.getRocketPending();
@@ -49,7 +40,8 @@ export class RocketsController {
 
   @Get('country/:country')
   async getRocketByCountry(@Param('country') country: string): Promise<RocketEntity[]> {
-    const rocket = await this.rocketsService.getRocketByCountry(country);
+    const countryName = country.replace(/_/g, ' ').toUpperCase();
+    const rocket = await this.rocketsService.getRocketByCountry(countryName);
     if (!rocket) {
       throw new NotFoundException('Rocket not found');
     }
@@ -117,5 +109,14 @@ export class RocketsController {
       throw new NotFoundException('No rockets found');
     }
     return rockets;
+  }
+
+  @Get(':id')
+  async getRocketById(@Param('id') id: string): Promise<RocketEntity> {
+    const rocket = await this.rocketsService.getRocketById(id);
+    if (!rocket) {
+      throw new NotFoundException('Rocket not found');
+    }
+    return rocket;
   }
 }
