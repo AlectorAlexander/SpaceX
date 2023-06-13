@@ -17,20 +17,6 @@ export class CapsulesController {
     }
   }
 
-  @Get(':id')
-  public async getCapsuleById(@Param('id') id: string): Promise<CapsulesEntity> {
-    try {
-      const capsule = await this.capsulesService.getCapsuleById(id);
-      if (!capsule) {
-        throw new NotFoundException('CapsulesEntity not found');
-      }
-      return capsule;
-    } catch (error) {
-      console.error(error);
-      throw new InternalServerErrorException('Failed to fetch capsule');
-    }
-  }
-
   @Get('by-times-used')
   public async getCapsulesByTimesUsed(): Promise<CapsulesEntity[]> {
     try {
@@ -42,6 +28,20 @@ export class CapsulesController {
     } catch (error) {
       console.error(error);
       throw new InternalServerErrorException('Failed to fetch capsules');
+    }
+  }
+
+  @Get(':id')
+  public async getCapsuleById(@Param('id') id: string): Promise<CapsulesEntity> {
+    try {
+      const capsule = await this.capsulesService.getCapsuleById(id);
+      if (!capsule) {
+        throw new NotFoundException('CapsulesEntity not found');
+      }
+      return capsule;
+    } catch (error) {
+      console.error(error);
+      throw new InternalServerErrorException('Failed to fetch capsule');
     }
   }
 }

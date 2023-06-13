@@ -21,17 +21,12 @@ export class CapsulesService {
   }
 
   public async getCapsulesByTimesUsed(): Promise<CapsulesEntity[] | null> {
-    try {
       const capsules = await this.capsuleRepository.find({
         order: {
           reuse_count: 'DESC',
         },
       });
-
       return capsules;
-    } catch (error) {
-      console.error('Error in getCapsulesByTimesUsed:', error);
-      return null;
+
     }
-  }
 }

@@ -46,7 +46,9 @@ export class LaunchEntity {
   @Column({type: 'varchar'})
   ships: string[];
 
-  @Column({type: 'varchar'})
+  @OneToMany(() => CapsulesEntity, capsule => capsule.launch)
+  @JoinColumn({ name: 'id' })
+  @Column('varchar', { array: true })
   capsules: string[];
 
   @Column({type: 'varchar'})
@@ -101,8 +103,6 @@ export class LaunchEntity {
   dateTbdWindow: number;
 
 
-  @OneToMany(() => CapsulesEntity, capsule => capsule.launch)
-  capsulesId: CapsulesEntity[];
 
   @OneToMany(() => PayloadEntity, payload => payload.launch)
   payloadsId: PayloadEntity[];
