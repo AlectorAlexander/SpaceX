@@ -7,6 +7,18 @@ export interface Links {
   patch: JSON;
 }
 
+export interface Cores {
+  core: string,
+  legs: JSON,
+  flight: JSON,
+  reused: JSON,
+  landpad: JSON,
+  gridfins: JSON,
+  landing_type: JSON,
+  landing_attempt: JSON,
+  landing_success: JSON
+}
+
 export interface Reddit {
   campaign: JSON;
   launch: JSON;

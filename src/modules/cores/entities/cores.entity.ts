@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryColumn, ManyToMany, JoinColumn, JoinTable } from 'typeorm';
-import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
+import { LaunchEntity } from '../../launches/entities/launches.entity';
 
 @Entity({ name: 'cores' })
 export class CoreEntity {
@@ -27,27 +27,14 @@ export class CoreEntity {
   @Column()
   last_update: string;
 
+  @ManyToMany(() => LaunchEntity, launch => launch.cores)
+  @JoinColumn({ name: 'id' })
   @Column('text', { array: true })
-  launchIds: string[];
+  launches: LaunchEntity[];
 
   @Column()
   serial: string;
 
   @Column()
   status: string;
-
-  @ManyToMany(() => LaunchEntity, launch => launch.cores)
-  @JoinTable({
-    
-    name: 'launch_core',
-    joinColumn: {
-      name: 'coreId',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'launchId',
-      referencedColumnName: 'id',
-    },
-  })
-  launches: LaunchEntity[];
 }

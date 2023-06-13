@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like, Not, IsNull } from 'typeorm';
 import { MoreThan } from 'typeorm';
 import { RocketEntity } from '../entities/rockets.entity';
-import { LaunchService } from 'src/modules/launches/services/launches.service';
+import { LaunchService } from '../..//launches/services/launches.service';
 
 @Injectable()
 export class RocketsService {

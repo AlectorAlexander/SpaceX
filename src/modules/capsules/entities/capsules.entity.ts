@@ -1,4 +1,4 @@
-import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
+import { LaunchEntity } from '../../launches/entities/launches.entity';
 
 import { Column, Entity, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm';
 

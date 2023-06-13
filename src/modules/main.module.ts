@@ -9,6 +9,7 @@ import CoresModule from './cores/cores.module';
 import { readFileSync } from 'fs';
 import * as dotenv from 'dotenv';
 dotenv.config();
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({

@@ -1,7 +1,7 @@
 /* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
-import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
+import { PayloadEntity } from '../..//payloads/entities/payloads.entity';
 
 export default class PayloadSeeder implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {

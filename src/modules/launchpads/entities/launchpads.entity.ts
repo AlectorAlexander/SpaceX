@@ -1,5 +1,5 @@
-import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
-import { Column, Entity, PrimaryColumn, OneToMany } from 'typeorm';
+import { LaunchEntity } from '../../launches/entities/launches.entity';
+import { Column, Entity, PrimaryColumn, OneToMany, JoinColumn } from 'typeorm';
 
 @Entity({ name: 'launchpads' })
 export class LaunchpadEntity {
@@ -36,8 +36,10 @@ export class LaunchpadEntity {
   @Column('text', { array: true })
   rockets: string[];
 
-  @Column('text', { array: true })
-  launches: string[];
+  @OneToMany(() => LaunchEntity, launch => launch.launchpad)
+  @JoinColumn({ name: 'id' })
+  @Column('text', { array: false })
+  launches: LaunchEntity;
 
   @Column()
   status: string;
@@ -45,6 +47,4 @@ export class LaunchpadEntity {
   @Column()
   details: string;
 
-  @OneToMany(() => LaunchEntity, launch => launch.launchPad)
-  launchesId: LaunchEntity[];
 }

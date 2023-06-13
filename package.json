@@ -20,8 +20,6 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "create-db": "typeorm migration:run",
-    "migrate": "typeorm migration:run --config src/database/config/sequelize.config.ts",
-    "migrate:reset": "typeorm migration:revert --config src/database/config/sequelize.config.ts && typeorm migration:run --config src/database/config/sequelize.config.ts",
     "clear-db": "typeorm schema:drop --config src/database/config/sequelize.config.ts --force",
     "seed": "node ./node_modules/typeorm-extension/dist/cli/index.js seed",
     "setup": "npm install && npm run build && npm run start:dev"

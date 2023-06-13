@@ -69,6 +69,4 @@ export class RocketEntity {
   @Column()
   description: string; /* Descrição da espaçonave. */
 
-  @OneToOne(() => LaunchEntity, (launch) => launch.rocket)
-  launch: LaunchEntity;
 }

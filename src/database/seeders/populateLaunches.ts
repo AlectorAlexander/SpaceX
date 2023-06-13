@@ -1,7 +1,7 @@
 /* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
-import { LaunchEntity } from 'src/modules/launches/entities/launches.entity';
+import { LaunchEntity } from '../..//launches/entities/launches.entity';
 
 export default class CreateLaunches implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {

@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, ILike } from 'typeorm';
 import { LaunchEntity } from '../entities/launches.entity';
-import { LaunchpadService } from 'src/modules/launchpads/services/launchpads.service';
+import { LaunchpadService } from '../..//launchpads/services/launchpads.service';
+import { log } from 'console';
 
 @Injectable()
 export class LaunchService {
@@ -10,9 +11,11 @@ export class LaunchService {
     @InjectRepository(LaunchEntity)
     private readonly launchRepository: Repository<LaunchEntity>,
     private readonly launchpadService: LaunchpadService,
-  ) {}
+  ) {
 
-  public async getAllLaunches(): Promise<LaunchEntity[]> {    
+  }
+
+  public async getAllLaunches(): Promise<LaunchEntity[]> {
     const launches = await this.launchRepository.find();
     return launches;
   }
@@ -20,7 +23,7 @@ export class LaunchService {
   public async getLaunchById(id: string): Promise<LaunchEntity | null> {
     
     const launch = await this.launchRepository.findOne({ where: {id}});
-    return launch || null;
+    return launch;
   }
 
   public async getRocketPending(): Promise<LaunchEntity | null> {
@@ -50,7 +53,7 @@ export class LaunchService {
   public async getLaunchesByCapsuleId(capsuleId: string): Promise<LaunchEntity[] | null> {
     try {
       const launches = await this.launchRepository.find({
-        where: { capsulesId: ILike(`%${capsuleId}%`) },
+        where: { capsules: ILike(`%${capsuleId}%`) },
         order: { dateUnix: 'ASC' },
       });
       return launches || null;
@@ -76,7 +79,7 @@ export class LaunchService {
   public async getLaunchesByLaunchpadId(launchpadId: string): Promise<LaunchEntity[] | null> {
     try {
       const launches = await this.launchRepository.find({
-        where: { launchPad: ILike(`%${launchpadId}%`) },
+        where: { launchpad: ILike(`%${launchpadId}%`) },
         order: { dateUnix: 'ASC' },
       });
       return launches || null;
@@ -87,43 +90,35 @@ export class LaunchService {
   }
 
   public async getLaunchesByRocketId(rocketId: string): Promise<LaunchEntity[] | null> {
-    try {
       const launches = await this.launchRepository.find({
         where: { rocket: ILike(`%${rocketId}%`) },
         order: { dateUnix: 'ASC' },
       });
       return launches || null;
-    } catch (error) {
-      console.error('Error in getLaunchesByRocketId:', error);
-      return null;
-    }
   }
 
-  public async getLaunchesByLaunchpadName(launchpadName: string): Promise<LaunchEntity[] | null> {
-    try {
-      console.log(launchpadName);
-      const launchpads = await this.launchpadService.getLaunchpadByName(launchpadName);
-
-      if (!launchpads || launchpads.length === 0) {
-        return null;
-      }
-
-      const launchpadIds = launchpads.map((launchpad) => launchpad.id);
-      const launches: (LaunchEntity[] | null)[] = await Promise.all(
-        launchpadIds.map((launchpadId) => this.getLaunchesByLaunchpadId(launchpadId)),
-      );
-      return launches.flat().filter((launch) => launch !== null) as LaunchEntity[] || null;
-    } catch (error) {
-      console.error('Error in getLaunchesByLaunchpadName:', error);
-      return null;
+  public async getLaunchesByLaunchpadName(launchpadName: string): Promise<LaunchEntity[]> {
+    const launchpads = await this.launchpadService.getLaunchpadByName(launchpadName);
+  
+    if (!launchpads || launchpads.length === 0) {
+      throw new NotFoundException('Launchpad not found');
     }
+    const launchpadIds = launchpads.map((launchpad) => launchpad.id);
+    const launches: (LaunchEntity[] | null)[] = await Promise.all(
+      launchpadIds.map((launchpadId) => this.getLaunchesByLaunchpadId(launchpadId)),
+    );
+    return launches.flat().filter((launch) => launch !== null) as LaunchEntity[];
   }
+  
 
   public async getLaunchesByCoreId(coreId: string): Promise<LaunchEntity[] | null> {
     try {
       const launches = await this.launchRepository.find();
       const filteredLaunches = launches.filter((launch) =>
-        launch.cores.find((core) => core.id === coreId),
+        launch.cores.filter((core) => {
+          if (core.core) 
+          return core.core === coreId
+        }),
       );
       return filteredLaunches || null;
     } catch (error) {

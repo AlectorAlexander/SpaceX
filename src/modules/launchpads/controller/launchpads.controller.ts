@@ -27,7 +27,6 @@ class LaunchpadsController {
         throw new NotFoundException('Launchpad not found');
       }
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException('Failed to fetch launchpad');
     }
   }

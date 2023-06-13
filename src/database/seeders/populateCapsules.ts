@@ -1,7 +1,7 @@
 /* import { Seeder, Factory } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import axios from 'axios';
-import { CapsulesEntity } from 'src/modules/capsules/entities/capsules.entity';
+import { CapsulesEntity } from '../..//capsules/entities/capsules.entity';
 
 export default class CreateCapsules implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {

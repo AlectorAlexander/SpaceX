@@ -1,10 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany, OneToMany, JoinTable, JoinColumn } from 'typeorm';
-import { Flickr, Links, Reddit } from '../dtos/launches.dto';
-import { RocketEntity } from 'src/modules/rockets/entities/rockets.entity';
-import { LaunchpadEntity } from 'src/modules/launchpads/entities/launchpads.entity';
-import { CoreEntity } from 'src/modules/cores/entities/cores.entity';
-import { CapsulesEntity } from 'src/modules/capsules/entities/capsules.entity';
-import { PayloadEntity } from 'src/modules/payloads/entities/payloads.entity';
+import { Cores, Flickr, Links, Reddit } from '../dtos/launches.dto';
+import { LaunchpadEntity } from '../..//launchpads/entities/launchpads.entity';
+import { CoreEntity } from '../..//cores/entities/cores.entity';
+import { CapsulesEntity } from '../..//capsules/entities/capsules.entity';
+import { PayloadEntity } from '../..//payloads/entities/payloads.entity';
 
 @Entity({ name: 'launchs' })
 export class LaunchEntity {
@@ -29,8 +28,7 @@ export class LaunchEntity {
   @Column()
   window: number;
 
-  @ManyToOne(() => RocketEntity, rocket => rocket.launch)
-  @JoinColumn({ name: 'id' })
+  @Column()
   rocket: string;
 
   @Column()
@@ -54,9 +52,11 @@ export class LaunchEntity {
   @Column({type: 'varchar'})
   payloads: string[];
 
-  @ManyToOne(() => LaunchpadEntity, launchPad => launchPad.launches)
-    @JoinColumn({ name: 'id' })
-  launchPad: LaunchpadEntity;
+  @ManyToOne(() => LaunchpadEntity, launchpad => launchpad.launches)
+  @JoinColumn({ name: 'id' })
+  @Column('text', { array: true })
+  launchpad: LaunchpadEntity[];
+  
 
   @Column()
   upcoming: boolean;
@@ -66,6 +66,21 @@ export class LaunchEntity {
 
   @Column()
   name: string;
+  
+  @ManyToMany(() => CoreEntity, core => core.launches)
+  @JoinTable({
+    name: 'launch_cores',
+    joinColumn: {
+      name: 'launches',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'cores',
+      referencedColumnName: 'id',
+    },
+  })
+  @Column('text', { array: true })
+  cores: Cores[];
 
   @Column({name: 'date_utc', type: 'varchar', length: 50})
   dateUtc: string;
@@ -85,19 +100,6 @@ export class LaunchEntity {
   @Column({name: 'date_tbd_window', type: 'int', default: 0})
   dateTbdWindow: number;
 
-  @ManyToMany(() => CoreEntity, core => core.launches)
-  @JoinTable({
-    name: 'launch_core',
-    joinColumn: {
-      name: 'launchId',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'coreId',
-      referencedColumnName: 'id',
-    },
-  })
-  cores: CoreEntity[];
 
   @OneToMany(() => CapsulesEntity, capsule => capsule.launch)
   capsulesId: CapsulesEntity[];

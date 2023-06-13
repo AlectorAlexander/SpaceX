@@ -3,6 +3,7 @@ import { Like } from 'typeorm';
 import { LaunchpadEntity } from '../entities/launchpads.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { log } from 'console';
 
 @Injectable()
 export class LaunchpadService {
