@@ -16,20 +16,6 @@ class CoresController {
     }
   }
 
-  @Get(':id')
-  public async getCoreById(@Param('id') id: string): Promise<any> {
-    try {
-      const core = await this.coresService.getCoreById(id);
-      if (core) {
-        return core;
-      } else {
-        throw new Error('Core not found');
-      }
-    } catch (error) {
-      console.log(error);
-      throw new Error('Failed to fetch core');
-    }
-  }
 
   @Get('rtls-landings')
   public async getLaunchesByRtlsLandings(): Promise<any> {
@@ -73,6 +59,21 @@ class CoresController {
     } catch (error) {
       console.log(error);
       throw new Error('Failed to fetch launches');
+    }
+  }
+
+  @Get(':id')
+  public async getCoreById(@Param('id') id: string): Promise<any> {
+    try {
+      const core = await this.coresService.getCoreById(id);
+      if (core) {
+        return core;
+      } else {
+        throw new Error('Core not found');
+      }
+    } catch (error) {
+      console.log(error);
+      throw new Error('Failed to fetch core');
     }
   }
 }
