@@ -18,7 +18,7 @@ dotenv.config();
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       extra: {
         ssl: {
-          ca: readFileSync(`../../../../../../../../${process.env.MYSQL_ATTR_SSL_CA}`)
+          ca: readFileSync(process.env.MYSQL_ATTR_SSL_CA)
         },
       },
     }),
