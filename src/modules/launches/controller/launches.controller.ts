@@ -1,7 +1,6 @@
-import { Controller, Get, Param, Post, Body, Next, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, Next, Res, HttpStatus, NotFoundException, InternalServerErrorException, BadRequestException } from '@nestjs/common';
 import { LaunchService } from '../services/launches.service';
 import { LaunchEntity } from '../entities/launches.entity';
-import { log } from 'console';
 
 @Controller('launches')
 export class LaunchController {
@@ -9,7 +8,11 @@ export class LaunchController {
 
   @Get()
   public async getAllLaunches(): Promise<LaunchEntity[]> {
-    return this.launchService.getAllLaunches();
+    try {
+      return this.launchService.getAllLaunches();
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   @Get('success')
@@ -17,15 +20,12 @@ export class LaunchController {
     try {
       const launches = await this.launchService.getRocketsSuccess();
       if (launches && launches.length > 0) {
-        return res.status(HttpStatus.OK).json(launches);
+        res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
@@ -36,13 +36,10 @@ export class LaunchController {
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
@@ -55,23 +52,17 @@ export class LaunchController {
   ): Promise<void> {
     try {
       if (isNaN(startDate) || isNaN(endDate)) {
-        const status = HttpStatus.BAD_REQUEST;
-        const message = 'Invalid date format';
-        next({ status, message });
-        return;
+        throw new BadRequestException('Invalid date format');
       }
 
       const launches = await this.launchService.getLaunchesByTimePeriod(startDate, endDate);
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
@@ -82,13 +73,10 @@ export class LaunchController {
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
@@ -99,13 +87,10 @@ export class LaunchController {
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
@@ -116,35 +101,27 @@ export class LaunchController {
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
   @Get('launchpad/name/:name')
-public async getLaunchesByLaunchpadName(@Param('name') name: string, @Res() res, @Next() next): Promise<void> {
-  try {
-    const launchpadName = name.replace(/_/g, ' ').toUpperCase();
-    const launches = await this.launchService.getLaunchesByLaunchpadName(launchpadName);
-    if (launches.length > 0) {
-      res.status(HttpStatus.OK).json(launches);
-    } else {
-    const status = HttpStatus.NOT_FOUND;
-      const message = 'Launches not found';
-      return next({ status, message });
+  public async getLaunchesByLaunchpadName(@Param('name') name: string, @Res() res, @Next() next): Promise<void> {
+    try {
+      const launchpadName = name.replace(/_/g, ' ').toUpperCase();
+      const launches = await this.launchService.getLaunchesByLaunchpadName(launchpadName);
+      if (launches.length > 0) {
+        res.status(HttpStatus.OK).json(launches);
+      } else {
+        throw new NotFoundException('Launches not found');
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
-  } catch (error) {
-    
-    const message = 'Failed to fetch launches';
-    next({ message, error });
   }
-}
-
 
   @Get('rocket/:id')
   public async getLaunchesByRocketId(@Param('id') id: string, @Res() res, @Next() next): Promise<void> {
@@ -153,13 +130,10 @@ public async getLaunchesByLaunchpadName(@Param('name') name: string, @Res() res,
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
 
@@ -170,17 +144,12 @@ public async getLaunchesByLaunchpadName(@Param('name') name: string, @Res() res,
       if (launches && launches.length > 0) {
         res.status(HttpStatus.OK).json(launches);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launches not found';
-        next({ status, message });
+        throw new NotFoundException('Launches not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launches';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launches');
     }
   }
-
-
 
   @Get(':id')
   public async getLaunchById(@Param('id') id: string, @Res() res, @Next() next): Promise<void> {
@@ -189,13 +158,10 @@ public async getLaunchesByLaunchpadName(@Param('name') name: string, @Res() res,
       if (launch) {
         res.status(HttpStatus.OK).json(launch);
       } else {
-        const status = HttpStatus.NOT_FOUND;
-        const message = 'Launch not found';
-        next({ status, message });
+        throw new NotFoundException('Launch not found');
       }
     } catch (error) {
-      const message = 'Failed to fetch launch';
-      next({ message, error });
+      throw new InternalServerErrorException('Failed to fetch launch');
     }
   }
 }
