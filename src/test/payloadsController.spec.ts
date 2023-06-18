@@ -1,3 +1,4 @@
+import { PayloadsService } from './../modules/payloads/services/payloads.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
@@ -74,6 +75,65 @@ describe('Payloads Routes', () => {
       expect(payload).toHaveProperty('id');
       expect(payload).toHaveProperty('name');
       expect(payload).toHaveProperty('type');
+    });
+  });
+});
+
+
+// errors
+
+describe('PayloadsController (e2e)', () => {
+  let app: INestApplication;
+  let service: PayloadsService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [MainModule],
+    }).compile();
+
+    app = module.createNestApplication();
+    await app.init();
+
+    service = module.get<PayloadsService>(PayloadsService);
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  describe('/GET payloads', () => {
+    it('should throw NotFoundException when fail to fetch payloads', async () => {
+      jest.spyOn(service, 'getAllPayloads').mockImplementation(() => Promise.reject(new Error()));
+      return request(app.getHttpServer())
+        .get('/payloads')
+        .expect(HttpStatus.NOT_FOUND);
+    });
+  });
+
+  describe('/GET payloads/name/:name', () => {
+    it('should throw NotFoundException when fail to fetch payload by name', async () => {
+      jest.spyOn(service, 'getPayloadByName').mockImplementation(() => Promise.reject(new Error()));
+      return request(app.getHttpServer())
+        .get('/payloads/name/test_name')
+        .expect(HttpStatus.NOT_FOUND);
+    });
+  });
+
+  describe('/GET payloads/type/:type', () => {
+    it('should throw NotFoundException when fail to fetch payload by type', async () => {
+      jest.spyOn(service, 'getPayloadByType').mockImplementation(() => Promise.reject(new Error()));
+      return request(app.getHttpServer())
+        .get('/payloads/type/test_type')
+        .expect(HttpStatus.NOT_FOUND);
+    });
+  });
+
+  describe('/GET payloads/:id', () => {
+    it('should throw NotFoundException when fail to fetch payload by id', async () => {
+      jest.spyOn(service, 'getPayloadById').mockImplementation(() => Promise.reject(new Error()));
+      return request(app.getHttpServer())
+        .get('/payloads/test_id')
+        .expect(HttpStatus.NOT_FOUND);
     });
   });
 });

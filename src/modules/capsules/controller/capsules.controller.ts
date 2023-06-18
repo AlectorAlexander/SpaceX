@@ -27,6 +27,9 @@ export class CapsulesController {
       return capsules;
     } catch (error) {
       console.error(error);
+      if (error.response.statusCode === 404) {
+        return error.response;
+      }
       throw new InternalServerErrorException('Failed to fetch capsules');
     }
   }
@@ -40,8 +43,10 @@ export class CapsulesController {
       }
       return capsule;
     } catch (error) {
-      console.error(error);
-      throw new InternalServerErrorException('Failed to fetch capsule');
+      if (error.response.statusCode === 404) {
+        return error.response;
+      }
+      throw new InternalServerErrorException('Failed to fetch capsules');
     }
   }
 }

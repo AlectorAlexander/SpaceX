@@ -1,7 +1,9 @@
+import { MainModule } from './../modules/main.module';
+import { CoresService } from '../modules/cores/services/cores.service';
+import CoresController from '../modules/cores/controller/cores.controller'
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { MainModule } from '../modules/main.module';
 
 describe('Cores Routes', () => {
   let app: INestApplication;
@@ -87,5 +89,77 @@ describe('Cores Routes', () => {
       expect(core.asds_landings).toBeLessThanOrEqual(maxAsdsLandings);
       maxAsdsLandings = core.asds_landings;
     });
+  });
+});
+
+
+// errors
+describe('CoresController (e2e)', () => {
+  let app: INestApplication;
+  let service: CoresService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [MainModule],
+    }).compile();
+
+    app = module.createNestApplication();
+    await app.init();
+
+    service = module.get<CoresService>(CoresService);
+  });
+
+  it('/GET all cores error', () => {
+    jest.spyOn(service, 'getAllCores').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/cores')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by rtls landings error', () => {
+    jest.spyOn(service, 'getLaunchesByRtlsLandings').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/cores/rtls-landings')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by asds attempts error', () => {
+    jest.spyOn(service, 'getLaunchesByAsdsAttempts').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/cores/asds-attempts')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by asds landings error', () => {
+    jest.spyOn(service, 'getLaunchesByAsdsLandings').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/cores/asds-landings')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET core by id error', () => {
+    jest.spyOn(service, 'getCoreById').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/cores/123')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  afterEach(async () => {
+    await app.close();
   });
 });

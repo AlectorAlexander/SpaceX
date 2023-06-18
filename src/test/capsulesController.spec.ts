@@ -1,7 +1,8 @@
+import { MainModule } from './../modules/main.module';
+import { CapsulesService } from './../modules/capsules/services/capsules.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { MainModule } from '../modules/main.module';
 import { CapsulesEntity } from '../modules/capsules/entities/capsules.entity';
 
 describe('Capsules Routes', () => {
@@ -62,3 +63,50 @@ describe('Capsules Routes', () => {
     });
   });
 });
+
+
+describe('CapsulesController (e2e)', () => {
+  let app: INestApplication;
+  let service: CapsulesService;
+
+  beforeEach(async () => {
+    const moduleFixture: TestingModule = await Test.createTestingModule({
+      imports: [MainModule],
+    }).compile();
+
+    service = moduleFixture.get<CapsulesService>(CapsulesService);
+
+    app = moduleFixture.createNestApplication();
+    await app.init();
+  });
+
+  it('/GET all capsules error', () => {
+    jest.spyOn(service, 'getAllCapsules').mockImplementation(() => Promise.reject(new Error()));
+
+    return request(app.getHttpServer())
+      .get('/capsules')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET capsules by times used error', () => {
+    jest.spyOn(service, 'getCapsulesByTimesUsed').mockImplementation(() => Promise.reject(new Error()));
+
+    return request(app.getHttpServer())
+      .get('/capsules/by-times-used')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET capsule by id error', () => {
+    jest.spyOn(service, 'getCapsuleById').mockImplementation(() => Promise.reject(new Error()));
+
+    return request(app.getHttpServer())
+      .get('/capsules/123')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+});
+

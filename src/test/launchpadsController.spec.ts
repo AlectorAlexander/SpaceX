@@ -1,7 +1,8 @@
+import { LaunchpadService } from './../modules/launchpads/services/launchpads.service';
+import { MainModule } from './../modules/main.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { MainModule } from '../modules/main.module';
 
 describe('Launchpads Routes', () => {
   let app: INestApplication;
@@ -81,4 +82,58 @@ describe('Launchpads Routes', () => {
     expect(response.body[0]).toHaveProperty('locality');
     expect(response.body[0]).toHaveProperty('region');
   });
+});
+
+// errors
+describe('LaunchpadsController (e2e)', () => {
+  let app: INestApplication;
+  let service: LaunchpadService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [MainModule],
+    }).compile();
+
+    app = module.createNestApplication();
+    await app.init();
+
+    service = module.get<LaunchpadService>(LaunchpadService);
+  });
+
+  it('/GET launchpad by name (not found)', () => {
+    jest.spyOn(service, 'getLaunchpadByName').mockImplementation(() => Promise.resolve(null));
+    
+    return request(app.getHttpServer())
+      .get('/launchpads/name/unknown_name')
+      .expect(HttpStatus.NOT_FOUND);
+  });
+
+  it('/GET launchpad by locality (not found)', () => {
+    jest.spyOn(service, 'getLaunchpadByLocality').mockImplementation(() => Promise.resolve(null));
+
+    return request(app.getHttpServer())
+      .get('/launchpads/locality/unknown_locality')
+      .expect(HttpStatus.NOT_FOUND);
+  });
+
+  it('/GET launchpad by region (not found)', () => {
+    jest.spyOn(service, 'getLaunchpadByRegion').mockImplementation(() => Promise.resolve(null));
+
+    return request(app.getHttpServer())
+      .get('/launchpads/region/unknown_region')
+      .expect(HttpStatus.NOT_FOUND);
+  });
+
+  it('/GET launchpad by ID (not found)', () => {
+    jest.spyOn(service, 'getLaunchpadById').mockImplementation(() => Promise.resolve(null));
+
+    return request(app.getHttpServer())
+      .get('/launchpads/unknown_id')
+      .expect(HttpStatus.NOT_FOUND);
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
 });

@@ -27,6 +27,5 @@ export class CapsulesService {
         },
       });
       return capsules;
-
     }
 }

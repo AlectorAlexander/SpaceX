@@ -1,3 +1,4 @@
+import { RocketsService } from './../modules/rockets/services/rockets.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
@@ -117,3 +118,82 @@ describe('Rockets Routes', () => {
   });
   
 });
+
+// errors
+
+describe('RocketsController (e2e)', () => {
+  let app: INestApplication;
+  let service: RocketsService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [MainModule],
+    }).compile();
+
+    app = module.createNestApplication();
+    await app.init();
+
+    service = module.get<RocketsService>(RocketsService);
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+
+  describe('/GET rockets', () => {
+    it('should throw an exception when it fails to fetch all rockets', async () => {
+      jest.spyOn(service, 'getAllRockets').mockImplementation(() => Promise.reject(new Error()));
+      return request(app.getHttpServer())
+        .get('/rockets')
+        .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+    });
+  });
+
+  describe('/GET rockets/pending', () => {
+    it('should throw an exception when it fails to fetch the next pending rocket', async () => {
+      jest.spyOn(service, 'getRocketPending').mockImplementation(() => Promise.reject(new Error()));
+      return request(app.getHttpServer())
+        .get('/rockets/pending')
+        .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+    });
+  });
+  describe('/GET rockets/name/:name', () => {
+    it('should throw an exception when it fails to fetch rocket by name', async () => {
+        jest.spyOn(service, 'getRocketByName').mockImplementation(() => Promise.reject(new Error()));
+        return request(app.getHttpServer())
+            .get('/rockets/name/falcon')
+            .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+    });
+});
+
+describe('/GET rockets/company/:company', () => {
+    it('should throw an exception when it fails to fetch rocket by company', async () => {
+        jest.spyOn(service, 'getRocketByCompany').mockImplementation(() => Promise.reject(new Error()));
+        return request(app.getHttpServer())
+            .get('/rockets/company/spacex')
+            .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+    });
+});
+
+describe('/GET rockets/country/:country', () => {
+    it('should throw an exception when it fails to fetch rocket by country', async () => {
+        jest.spyOn(service, 'getRocketByCountry').mockImplementation(() => Promise.reject(new Error()));
+        return request(app.getHttpServer())
+            .get('/rockets/country/usa')
+            .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+    });
+});
+
+
+describe('/GET rockets/:id', () => {
+    it('should throw an exception when it fails to fetch rocket by id', async () => {
+        jest.spyOn(service, 'getRocketById').mockImplementation(() => Promise.reject(new Error()));
+        return request(app.getHttpServer())
+            .get('/rockets/123')
+            .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+    });
+});
+
+});
+

@@ -1,7 +1,8 @@
+import { LaunchService } from './../modules/launches/services/launches.service';
+import { MainModule } from './../modules/main.module';
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { MainModule } from '../modules/main.module';
 import { LaunchEntity } from '../modules/launches/entities/launches.entity';
 import { log } from 'console';
 
@@ -144,5 +145,137 @@ describe('Launch Routes', () => {
 
   expect(areWithinTimePeriod).toBe(true);
 });
+});
 
+// errors
+describe('LaunchController (e2e)', () => {
+  let app: INestApplication;
+  let service: LaunchService;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [MainModule],
+    }).compile();
+
+    app = module.createNestApplication();
+    await app.init();
+
+    service = module.get<LaunchService>(LaunchService);
+  });
+
+  it('/GET all launches error', () => {
+    jest.spyOn(service, 'getAllLaunches').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches success error', () => {
+    jest.spyOn(service, 'getRocketsSuccess').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/success')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches failure error', () => {
+    jest.spyOn(service, 'getRocketsFailure').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/failure')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/POST search by time error', () => {
+    jest.spyOn(service, 'getLaunchesByTimePeriod').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .post('/launches/search/time')
+      .send({ start_date: 1234567890, end_date: 1234567899 })
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by capsule ID error', () => {
+    jest.spyOn(service, 'getLaunchesByCapsuleId').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/capsule/1')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by payload ID error', () => {
+    jest.spyOn(service, 'getLaunchesByPayloadId').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/payload/1')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by launchpad ID error', () => {
+    jest.spyOn(service, 'getLaunchesByLaunchpadId').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/launchpad/1')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by launchpad name error', () => {
+    jest.spyOn(service, 'getLaunchesByLaunchpadName').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/launchpad/name/test_name')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by rocket ID error', () => {
+    jest.spyOn(service, 'getLaunchesByRocketId').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/rocket/1')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launches by core ID error', () => {
+    jest.spyOn(service, 'getLaunchesByCoreId').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/core/1')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+  it('/GET launch by ID error', () => {
+    jest.spyOn(service, 'getLaunchById').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    return request(app.getHttpServer())
+      .get('/launches/1')
+      .expect(HttpStatus.INTERNAL_SERVER_ERROR);
+  });
+
+
+  afterEach(async () => {
+    await app.close();
+  });
 });
