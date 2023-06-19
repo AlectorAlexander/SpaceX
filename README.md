@@ -3,4 +3,4 @@ A SpaceX, empresa de exploração espacial fundada por Elon Musk, disponibiliza 
 
 ## Documentação da API
 
-A documentação completa da API pode ser encontrada [aqui](https://spacex-api-nyvm.onrender.com).
+A documentação completa da API pode ser encontrada [aqui](https://spacex-api-nyvm.onrender.com/api-docs).
