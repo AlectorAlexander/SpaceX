@@ -1,12 +1,17 @@
 import { Controller, Get, Param, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { CapsulesService } from '../services/capsules.service';
 import { CapsulesEntity } from '../entities/capsules.entity';
+import { ApiTags, ApiOperation, ApiResponse, ApiNotFoundResponse, ApiInternalServerErrorResponse, ApiParam } from '@nestjs/swagger';
 
+@ApiTags('capsules')
 @Controller('capsules')
 export class CapsulesController {
   constructor(private readonly capsulesService: CapsulesService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Obter todas as cápsulas' })
+  @ApiResponse({ status: 200, description: 'Cápsulas encontradas', type: CapsulesEntity, isArray: true })
+  @ApiInternalServerErrorResponse({ description: 'Falha ao buscar as cápsulas' })
   public async getAllCapsules(): Promise<CapsulesEntity[]> {
     try {
       const capsules = await this.capsulesService.getAllCapsules();
@@ -18,6 +23,10 @@ export class CapsulesController {
   }
 
   @Get('by-times-used')
+  @ApiOperation({ summary: 'Obter cápsulas por vezes usadas' })
+  @ApiResponse({ status: 200, description: 'Cápsulas encontradas', type: CapsulesEntity, isArray: true })
+  @ApiNotFoundResponse({ description: 'Cápsulas não encontradas' })
+  @ApiInternalServerErrorResponse({ description: 'Falha ao buscar as cápsulas' })
   public async getCapsulesByTimesUsed(): Promise<CapsulesEntity[]> {
     try {
       const capsules = await this.capsulesService.getCapsulesByTimesUsed();
@@ -35,6 +44,11 @@ export class CapsulesController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Obter cápsula por ID' })
+  @ApiParam({ name: 'id', type: 'string', description: 'ID da cápsula' })
+  @ApiResponse({ status: 200, description: 'Cápsula encontrada', type: CapsulesEntity })
+  @ApiNotFoundResponse({ description: 'Cápsula não encontrada' })
+  @ApiInternalServerErrorResponse({ description: 'Falha ao buscar a cápsula' })
   public async getCapsuleById(@Param('id') id: string): Promise<CapsulesEntity> {
     try {
       const capsule = await this.capsulesService.getCapsuleById(id);

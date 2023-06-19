@@ -8,8 +8,8 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(MainModule);
   const options = new DocumentBuilder()
-  .setTitle('Nome da API')
-  .setDescription('Descrição da API')
+  .setTitle('Space X API')
+  .setDescription('A SpaceX, empresa de exploração espacial fundada por Elon Musk, disponibiliza uma API pública que fornece informações sobre missões, foguetes, cápsulas e lançamentos realizados pela empresa. Essa API permite que os desenvolvedores acessem dados atualizados sobre as atividades da SpaceX e os utilizem em suas próprias aplicações.')
   .setVersion('1.0')
   .build();
 

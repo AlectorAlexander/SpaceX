@@ -1,6 +1,6 @@
 import { MainModule } from './../modules/main.module';
 import { CoresService } from '../modules/cores/services/cores.service';
-import CoresController from '../modules/cores/controller/cores.controller'
+import { CoresController } from '../modules/cores/controller/cores.controller'
 import { Test, TestingModule } from '@nestjs/testing';
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
