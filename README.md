@@ -1,5 +1,5 @@
 # Space X API
-A SpaceX, empresa de exploração espacial fundada por Elon Musk, disponibiliza uma API pública que fornece informações sobre missões, foguetes, cápsulas e lançamentos realizados pela empresa. Essa API permite que os desenvolvedores acessem dados atualizados sobre as atividades da SpaceX e os utilizem em suas próprias aplicações.
+AEssa API permite que os desenvolvedores acessem dados atualizados sobre as atividades da SpaceX e os utilizem em suas próprias aplicações.
 
 ## Ferramentas Utilizadas
 * NestJS: Um framework para construir aplicativos Node.js eficientes e escaláveis.
