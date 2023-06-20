@@ -1,5 +1,5 @@
 # Space X API
-AEssa API permite que os desenvolvedores acessem dados atualizados sobre as atividades da SpaceX e os utilizem em suas próprias aplicações.
+Essa API permite que os desenvolvedores acessem dados atualizados sobre as atividades da SpaceX e os utilizem em suas próprias aplicações.
 
 ## Ferramentas Utilizadas
 * NestJS: Um framework para construir aplicativos Node.js eficientes e escaláveis.
